@@ -13,7 +13,7 @@ class ReponseController extends Controller
     public function index()
     {
         $reponses = Reponse::latest()->paginate(10);
-        return view('reponse.index',compact('reponses'));
+        return view('reponses.index',compact('reponses'));
     }
 
     /**
@@ -21,7 +21,7 @@ class ReponseController extends Controller
      */
     public function create()
     {
-        return view('reponse.create');
+        return view('reponses.create');
     }
 
     /**
@@ -42,7 +42,7 @@ class ReponseController extends Controller
      */
     public function show(Reponse $reponse)
     {
-        return view('reponse.show',compact('reponse'));
+        return view('reponses.show',compact('reponse'));
     }
 
     /**
