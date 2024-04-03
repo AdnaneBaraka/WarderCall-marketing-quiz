@@ -28,23 +28,31 @@ class QuestionnaireUserController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-       //
+    {
+        $request->validate([
+            'questionnaire_id' => 'required',
+            'user_id' => 'required',
+            'date' => 'required',
+            'Admis' => 'required',
+        ]);
+        $questionnaireUser = QuestionnaireUser::create($request->all());
+    }
 
     /**
      * Display the specified resource.
      */
     public function show(QuestionnaireUser $questionnaireUser)
     {
-        //
+        return view('questionnaireUser.show',compact('questionnaireUser'));
     }
 
-    
+
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(QuestionnaireUser $questionnaireUser)
     {
-        //
+        return view('questionnaireUser.edit',compact('questionnaireUser'));
     }
 
     /**
@@ -52,7 +60,13 @@ class QuestionnaireUserController extends Controller
      */
     public function update(Request $request, QuestionnaireUser $questionnaireUser)
     {
-        //
+        $request->validate([
+            'questionnaire_id' => 'required',
+            'user_id' => 'required',
+            'date' => 'required',
+            'Admis' => 'required',
+        ]);
+        $questionnaireUser->update($request->all());
     }
 
     /**
@@ -60,6 +74,7 @@ class QuestionnaireUserController extends Controller
      */
     public function destroy(QuestionnaireUser $questionnaireUser)
     {
-        //
+        $questionnaireUser->delete();
+        return redirect()->route('questionnaireUsers.index')->with('success','QuestionnaireUser supprime avec succes');
     }
 }

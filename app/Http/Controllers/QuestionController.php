@@ -12,7 +12,8 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        //
+        $questions = Question::latest()->paginate(10);
+        return view('question.index',compact('questions'));
     }
 
     /**
@@ -20,7 +21,7 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        //
+        return view('question.create');
     }
 
     /**
@@ -28,7 +29,12 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'question' => 'required',
+            'image' => 'required',
+            'reponse_id' => 'required',
+        ]);
+        $question = Question::create($request->all());
     }
 
     /**
@@ -36,7 +42,7 @@ class QuestionController extends Controller
      */
     public function show(Question $question)
     {
-        //
+        return view('question.show',compact('question'));
     }
 
     /**
@@ -44,7 +50,7 @@ class QuestionController extends Controller
      */
     public function edit(Question $question)
     {
-        //
+        return view('question.edit',compact('question'));
     }
 
     /**
@@ -52,7 +58,12 @@ class QuestionController extends Controller
      */
     public function update(Request $request, Question $question)
     {
-        //
+        $request->validate([
+            'question' => 'required',
+            'image' => 'required',
+            'reponse_id' => 'required',
+        ]);
+        $question->update($request->all());
     }
 
     /**
@@ -60,6 +71,7 @@ class QuestionController extends Controller
      */
     public function destroy(Question $question)
     {
-        //
+        $question->delete();
+        return redirect()->route('questions.index')->with('success','Question supprime avec succes');
     }
 }

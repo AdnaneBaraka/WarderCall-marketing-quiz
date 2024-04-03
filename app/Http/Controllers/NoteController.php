@@ -12,7 +12,8 @@ class NoteController extends Controller
      */
     public function index()
     {
-        //
+        $notes = Note::latest()->paginate(10);
+        return view('note.index',compact('notes'));
     }
 
     /**
@@ -20,7 +21,7 @@ class NoteController extends Controller
      */
     public function create()
     {
-        //
+        return view('note.create');
     }
 
     /**
@@ -28,7 +29,14 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'note' => 'required',
+            'question_id' => 'required',
+            'user_id' => 'required',
+            'questionnaire_id' => 'required',
+            'reponse_id' => 'required',
+        ]);
+        $note = Note::create($request->all());
     }
 
     /**
@@ -36,7 +44,7 @@ class NoteController extends Controller
      */
     public function show(Note $note)
     {
-        //
+        return view('note.show',compact('note'));
     }
 
     /**
@@ -44,7 +52,7 @@ class NoteController extends Controller
      */
     public function edit(Note $note)
     {
-        //
+        return view('note.edit',compact('note'));
     }
 
     /**
@@ -52,7 +60,14 @@ class NoteController extends Controller
      */
     public function update(Request $request, Note $note)
     {
-        //
+        $request->validate([
+            'note' => 'required',
+            'question_id' => 'required',
+            'user_id' => 'required',
+            'questionnaire_id' => 'required',
+            'reponse_id' => 'required',
+        ]);
+        $note->update($request->all());
     }
 
     /**
@@ -60,6 +75,7 @@ class NoteController extends Controller
      */
     public function destroy(Note $note)
     {
-        //
+        $note->delete();
+        return redirect()->route('notes.index')->with('success','Note supprime avec succes');
     }
 }

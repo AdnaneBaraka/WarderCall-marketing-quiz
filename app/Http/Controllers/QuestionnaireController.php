@@ -12,7 +12,8 @@ class QuestionnaireController extends Controller
      */
     public function index()
     {
-        //
+        $questionnaires = Questionnaire::latest()->paginate(10);
+        return view('questionnaire.index',compact('questionnaires'));
     }
 
     /**
@@ -20,7 +21,7 @@ class QuestionnaireController extends Controller
      */
     public function create()
     {
-        //
+        return view('questionnaire.create');
     }
 
     /**
@@ -28,7 +29,13 @@ class QuestionnaireController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'titre' => 'required',
+            'description' => 'required',
+            'question_id' => 'required',
+        ]);
+        $questionnaire = Questionnaire::create($request->all());
+        return redirect()->route('questionnaires.index')->with('success','Questionnaire ajoute avec succes');
     }
 
     /**
@@ -36,7 +43,7 @@ class QuestionnaireController extends Controller
      */
     public function show(Questionnaire $questionnaire)
     {
-        //
+        return view('questionnaire.show',compact('questionnaire'));
     }
 
     /**
@@ -44,7 +51,7 @@ class QuestionnaireController extends Controller
      */
     public function edit(Questionnaire $questionnaire)
     {
-        //
+        return view('questionnaire.edit',compact('questionnaire'));
     }
 
     /**
@@ -52,7 +59,13 @@ class QuestionnaireController extends Controller
      */
     public function update(Request $request, Questionnaire $questionnaire)
     {
-        //
+        $request->validate([
+            'titre' => 'required',
+            'description' => 'required',
+            'question_id' => 'required',
+        ]);
+        $questionnaire->update($request->all());
+        return redirect()->route('questionnaires.index')->with('success','Questionnaire modifie avec succes');
     }
 
     /**
@@ -60,6 +73,7 @@ class QuestionnaireController extends Controller
      */
     public function destroy(Questionnaire $questionnaire)
     {
-        //
+        $questionnaire->delete();
+        return redirect()->route('questionnaires.index')->with('success','Questionnaire supprime avec succes');
     }
 }
